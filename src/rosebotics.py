@@ -193,7 +193,7 @@ class Camera(object):
 
 
 class ColorSensor(low_level_rb.ColorSensor):
-    """ Primary author of this class:  PUT_YOUR_NAME_HERE. """
+    """ Primary author of this class:  Drew Borman. """
 
     def __init__(self, port=ev3.INPUT_3):
         super().__init__(port)
@@ -204,7 +204,11 @@ class ColorSensor(low_level_rb.ColorSensor):
         light intensity is less than the given value (threshold), which should
         be between 0 (no light reflected) and 100 (maximum light reflected).
         """
-        # TODO.
+        # DONE.
+        threshold = 44
+        while reflected_light_intensity >= threshold:
+            self.start_moving
+        return reflected_light_intensity
 
     def wait_until_intensity_is_greater_than(self, reflected_light_intensity):
         """
@@ -212,7 +216,11 @@ class ColorSensor(low_level_rb.ColorSensor):
         light intensity is greater than the given value (threshold), which
         should be between 0 (no light reflected) and 100 (max light reflected).
         """
-        # TODO.
+        # DONE.
+        threshold = 44
+        while reflected_light_intensity <= threshold:
+            self.stop_moving
+        return reflected_light_intensity
 
     def wait_until_color_is(self, color):
         """
