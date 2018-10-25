@@ -208,6 +208,7 @@ class ColorSensor(low_level_rb.ColorSensor):
         threshold = 44
         while reflected_light_intensity >= threshold:
             self.start_moving
+            print(reflected_light_intensity)
         return reflected_light_intensity
 
     def wait_until_intensity_is_greater_than(self, reflected_light_intensity):
@@ -220,6 +221,7 @@ class ColorSensor(low_level_rb.ColorSensor):
         threshold = 44
         while reflected_light_intensity <= threshold:
             self.stop_moving
+            print(reflected_light_intensity)
         return reflected_light_intensity
 
     def wait_until_color_is(self, color):
