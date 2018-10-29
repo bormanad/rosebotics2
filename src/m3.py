@@ -30,16 +30,58 @@ def run_test_color_sensor():
 
 
 def run_test_wait_until_intensity_is_less_than():
-    robot = rb.Snatch3rRobot
+
+    robot = rb.Snatch3rRobot()
     print()
     print("Testing the function on different colors")
     print("Let the robot go over different colors")
     print("Stops Test when threshold is reached")
 
-    
+    robot.color_sensor.wait_until_intensity_is_less_than(85)
+    print('done')
+
+
+def run_test_wait_until_intensity_is_greater_than():
+
+    robot = rb.Snatch3rRobot()
+    print()
+    print("Testing the function on different colors")
+    print("Let the robot go over different colors")
+    print("Stops Test when threshold is reached")
+
+    robot.color_sensor.wait_until_intensity_is_greater_than(85)
+    print('Done')
+
+
+def run_test_wait_until_color_is():
+
+    robot = rb.Snatch3rRobot()
+    print()
+    print('Testing the function on different colors')
+    print('Let the robot go over different colors')
+    print('Stops the test when the color is detected.')
+
+    robot.color_sensor.wait_until_color_is(5)
+    print('Done')
+
+
+def run_test_wait_until_color_is_one_of():
+    robot = rb.Snatch3rRobot()
+    print()
+    print('Testing the function on different colors')
+    print('Let the robot go over different colors')
+    print('Stops the test when the color is detected')
+
+    robot.color_sensor.wait_until_color_is_one_of([3, 4, 5])
+    print('Done')
 
 def main():
-    run_test_color_sensor()
+
+    #run_test_color_sensor()
+    #run_test_wait_until_intensity_is_less_than()
+    #run_test_wait_until_intensity_is_greater_than()
+    #run_test_wait_until_color_is()
+    run_test_wait_until_color_is_one_of()
 
     """ Runs YOUR specific part of the project """
 

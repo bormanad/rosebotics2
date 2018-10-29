@@ -206,9 +206,11 @@ class ColorSensor(low_level_rb.ColorSensor):
         """
         # DONE.
         value = self.get_value()
-        while value >= reflected_light_intensity:
-            self.start_moving
-        print(reflected_light_intensity)
+        while True:
+            if value[0] <= reflected_light_intensity or value[1] <= reflected_light_intensity or value[2] <= reflected_light_intensity:
+                break
+            print(value)
+            value = self.get_value()
 
     def wait_until_intensity_is_greater_than(self, reflected_light_intensity):
         """
@@ -218,10 +220,11 @@ class ColorSensor(low_level_rb.ColorSensor):
         """
         # DONE.
         value = self.get_value()
-        while reflected_light_intensity <= value:
-            self.stop_moving
-        print(reflected_light_intensity)
-
+        while True:
+            if value[0] >= reflected_light_intensity or value[1] >= reflected_light_intensity or value[2] >= reflected_light_intensity:
+                break
+            print(value)
+            value = self.get_value()
 
     def wait_until_color_is(self, color):
         """
@@ -230,6 +233,11 @@ class ColorSensor(low_level_rb.ColorSensor):
         The given color must be a Color (as defined above).
         """
         # TODO.
+        while True:
+            print(self.get_color())
+            if self.get_color() == color:
+                break
+        print('Done')
 
     def wait_until_color_is_one_of(self, colors):
         """
@@ -238,6 +246,10 @@ class ColorSensor(low_level_rb.ColorSensor):
         Each item in the sequence must be a Color (as defined above).
         """
         # TODO.
+        while True:
+            for k in range(len(colors)):
+                if self.get_color() == colors[k]:
+                    print('Done')
 
 
 class InfraredSensorAsProximitySensor(object):
@@ -252,3 +264,4 @@ class InfraredSensorAsBeaconSensor(object):
 
 class InfraredSensorAsBeaconButtonSensor(object):
     """ Primary author of this class:  PUT_YOUR_NAME_HERE. """
+
