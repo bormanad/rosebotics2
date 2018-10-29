@@ -194,9 +194,9 @@ class TouchSensor(low_level_rb.TouchSensor):
 
     def wait_until_pressed(self):
         """ Waits (doing nothing new) until the touch sensor is pressed. """
-       while True:
-           if self.get_value() == 1:
-               self.start_moving
+        while True:
+            if self.get_value() == 1:
+                self.start_moving
 
 
         # TODO.

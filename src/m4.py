@@ -9,9 +9,9 @@ import time
 
 def main():
     """ Runs YOUR specific part of the project """
-    run_test_createPolygon()
-    run_test_findColor()
-    run_test_followBlackLine()
+    #run_test_createPolygon()
+    #run_test_findColor()
+    #run_test_followBlackLine()
 
 
 
@@ -20,7 +20,7 @@ def run_test_createPolygon():
     print("Testng the createPolgyon method for the robot")
     print("It will create a pentagon")
     createPolygon(5)
-
+    print('hi')
 def run_test_followBlackLine():
     print()
     print("Testing the followBlackLine method")
@@ -37,28 +37,36 @@ def createPolygon(n):
     """ Calculates the measure of each interior angle. """
     angle_moved = 360/n
     inches = 10
-    for k in range(n):
-        robot.drive_system.go_straight_inches(inches,100)
-        robot.drive_system.spin_in_place_degrees(angle_moved,100)
+    i = 0
+    while i != n:
+        robot.drive_system.go_straight_inches(inches, 100)
+        print('hi')
+        robot.drive_system.left_wheel.reset_degrees_spun()
+        robot.drive_system.spin_in_place_degrees(angle_moved, 100)
+        print('bye')
+        i = i + 1
 
+
+    print('dont')
 def followBlackLine():
     robot = rb.Snatch3rRobot()
-    degree = 0
     while True:
         if robot.color_sensor.get_color() == 1:
-            robot.drive_system.move_for_seconds(100,100)
+            robot.drive_system.start_moving(30,30)
         else:
-            degree = degree + 15
-            robot.drive_system.spin_in_place_degrees(degree,100)
+            robot.drive_system.stop_moving()
+            robot.drive_system.left_wheel.reset_degrees_spun()
+            robot.drive_system.spin_in_place_degrees(1,30)
 
 
 
 def findColor(color):
     robot = rb.Snatch3rRobot()
     while True:
-        robot.drive_system.start_moving(100,100)
+        robot.drive_system.start_moving(50 ,50)
         if robot.color_sensor.get_color() == color:
-            robot.drive_system.stop_moving(stop_action=StopAction.BRAKE)
+            robot.drive_system.stop_moving()
+            break
 
 
 

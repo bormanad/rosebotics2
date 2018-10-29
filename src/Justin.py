@@ -11,7 +11,7 @@ def main():
     """ Runs YOUR specific part of the project """
     #run_test_move_for_seconds()
     #run_test_go_straight_inches()
-    #run_test_spin_in_place_degrees()
+    run_test_spin_in_place_degrees()
     #run_test_turn_degrees()
 
 def run_test_move_for_seconds():
