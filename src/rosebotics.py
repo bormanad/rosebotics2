@@ -254,7 +254,7 @@ class ColorSensor(low_level_rb.ColorSensor):
         of what color it sees is the given color.
         The given color must be a Color (as defined above).
         """
-        # TODO.
+        # DONE.
         while True:
             print(self.get_color())
             if self.get_color() == color:
@@ -267,7 +267,7 @@ class ColorSensor(low_level_rb.ColorSensor):
         of what color it sees is any one of the given sequence of colors.
         Each item in the sequence must be a Color (as defined above).
         """
-        # TODO.
+        # DONE.
         while True:
             for k in range(len(colors)):
                 if self.get_color() == colors[k]:
