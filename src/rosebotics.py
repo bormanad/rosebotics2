@@ -105,9 +105,14 @@ class DriveSystem(object):
         Go straight at the given speed (-100 to 100, negative is backwards)
         for the given number of inches, stopping with the given StopAction.
         """
-        # TODO: Do a few experiments to determine the constant that converts
-        # TODO:   from wheel-degrees-spun to robot-inches-moved.
-        # TODO:   Assume that the conversion is linear with respect to speed.
+        #DONE: Do a few experiments to determine the constant that converts
+        # DONE:   from wheel-degrees-spun to robot-inches-moved.
+        # DONE:   Assume that the conversion is linear with respect to speed.
+        self.start_moving(duty_cycle_percent, duty_cycle_percent)
+        while True:
+            if self.right_wheel.get_degrees_spun()*(11*3.1415926/(8*360)) >= inches: ## Replace inches*10
+                self.stop_moving(stop_action)
+                break
 
     def spin_in_place_degrees(self,
                               degrees,
@@ -119,10 +124,14 @@ class DriveSystem(object):
         where positive is clockwise and negative is counter-clockwise),
         stopping by using the given StopAction.
         """
-        # TODO: Do a few experiments to determine the constant that converts
-        # TODO:   from wheel-degrees-spun to robot-degrees-spun.
-        # TODO:   Assume that the conversion is linear with respect to speed.
-
+        # DONE: Do a few experiments to determine the constant that converts
+        # DONE:   from wheel-degrees-spun to robot-degrees-spun.
+        # DONE:   Assume that the conversion is linear with respect to speed.
+        self.start_moving(duty_cycle_percent, -1*duty_cycle_percent)
+        while True:
+            if self.left_wheel.get_degrees_spun()*(360/1980) >= degrees:
+                self.stop_moving(stop_action)
+                break
     def turn_degrees(self,
                      degrees,
                      duty_cycle_percent=100,
@@ -133,11 +142,15 @@ class DriveSystem(object):
         where positive is clockwise and negative is counter-clockwise),
         stopping by using the given StopAction.
         """
-        # TODO: Do a few experiments to determine the constant that converts
-        # TODO:   from wheel-degrees-spun to robot-degrees-turned.
-        # TODO:   Assume that the conversion is linear with respect to speed.
+        # DONE: Do a few experiments to determine the constant that converts
+        # DONE:   from wheel-degrees-spun to robot-degrees-turned.
+        # DONE:   Assume that the conversion is linear with respect to speed.
 
-
+        self.right_wheel.start_spinning(duty_cycle_percent)
+        while True:
+            if self.right_wheel.get_degrees_spun()*(180/1861) >= degrees:
+                self.stop_moving(stop_action)
+                break
 # class ArmAndClaw(object):
 #     def __init__(self, touch_sensor, port=ev3.OUTPUT_A):
 #         self.motor = ev3.MediumMotor(port)
@@ -215,9 +228,11 @@ class ColorSensor(low_level_rb.ColorSensor):
         """
         # DONE.
         value = self.get_value()
-        while value >= reflected_light_intensity:
-            self.start_moving
-        print(reflected_light_intensity)
+        while True:
+            if value[0] <= reflected_light_intensity or value[1] <= reflected_light_intensity or value[2] <= reflected_light_intensity:
+                break
+            print(value)
+            value = self.get_value()
 
     def wait_until_intensity_is_greater_than(self, reflected_light_intensity):
         """
@@ -227,10 +242,11 @@ class ColorSensor(low_level_rb.ColorSensor):
         """
         # DONE.
         value = self.get_value()
-        while reflected_light_intensity <= value:
-            self.stop_moving
-        print(reflected_light_intensity)
-
+        while True:
+            if value[0] >= reflected_light_intensity or value[1] >= reflected_light_intensity or value[2] >= reflected_light_intensity:
+                break
+            print(value)
+            value = self.get_value()
 
     def wait_until_color_is(self, color):
         """
@@ -239,6 +255,11 @@ class ColorSensor(low_level_rb.ColorSensor):
         The given color must be a Color (as defined above).
         """
         # TODO.
+        while True:
+            print(self.get_color())
+            if self.get_color() == color:
+                break
+        print('Done')
 
     def wait_until_color_is_one_of(self, colors):
         """
@@ -247,6 +268,10 @@ class ColorSensor(low_level_rb.ColorSensor):
         Each item in the sequence must be a Color (as defined above).
         """
         # TODO.
+        while True:
+            for k in range(len(colors)):
+                if self.get_color() == colors[k]:
+                    print('Done')
 
 
 
@@ -262,3 +287,4 @@ class InfraredSensorAsBeaconSensor(object):
 
 class InfraredSensorAsBeaconButtonSensor(object):
     """ Primary author of this class:  PUT_YOUR_NAME_HERE. """
+

@@ -77,6 +77,8 @@ def run_test_touch_sensor():
         count = count + 1
 
 
+
+
 def run_test_color_sensor():
     """ Tests the  color_sensor  of the Snatch3rRobot. """
     robot = rb.Snatch3rRobot()
