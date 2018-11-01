@@ -132,6 +132,7 @@ class DriveSystem(object):
             if self.left_wheel.get_degrees_spun()*(360/1980) >= degrees:
                 self.stop_moving(stop_action)
                 break
+
     def turn_degrees(self,
                      degrees,
                      duty_cycle_percent=100,
@@ -272,7 +273,6 @@ class ColorSensor(low_level_rb.ColorSensor):
             for k in range(len(colors)):
                 if self.get_color() == colors[k]:
                     print('Done')
-
 
 
 class InfraredSensorAsProximitySensor(object):
