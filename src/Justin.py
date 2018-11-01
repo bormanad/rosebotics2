@@ -3,16 +3,17 @@
   Fall term, 2018-2019.
 """
 
-import rosebotics as rb
+import rosebotics_new as rb
 import time
-
+import ev3dev.ev3 as ev3
 
 def main():
     """ Runs YOUR specific part of the project """
     #run_test_move_for_seconds()
     #run_test_go_straight_inches()
-    run_test_spin_in_place_degrees()
+    #run_test_spin_in_place_degrees()
     #run_test_turn_degrees()
+    run_test_infared_sensor()
 
 def run_test_move_for_seconds():
 
@@ -63,6 +64,25 @@ def run_test_turn_degrees():
     robot.drive_system.turn_degrees(90, 100)
 
     print('Degrees the wheels turned:', robot.drive_system.right_wheel.get_degrees_spun())
+
+def run_test_infared_sensor():
+
+    print()
+    print('Testing infared_sensor function')
+    print('-------------------------------')
+    print('Should beep if an object is within 9 inches')
+
+    robot = rb.Snatch3rRobot()
+    distance = robot.proximity_sensor.get_distance_to_nearest_object_in_inches()
+    while True:
+        if distance <= 15 and distance >= 9:
+            print('hi')
+            ev3.Sound.beep().wait()
+        distance = robot.proximity_sensor.get_distance_to_nearest_object_in_inches()
+
+
+
+
 
 
 main()
