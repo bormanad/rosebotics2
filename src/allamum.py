@@ -12,7 +12,7 @@ import rosebotics_new as rb
 
 def main():
     """ Runs YOUR specific part of the project """
-    run_test_touch_sensor()
+    #run_test_touch_sensor()
     identifySize()
 
 def run_test_touch_sensor():
@@ -33,11 +33,13 @@ def run_test_touch_sensor():
 
 
 def identifySize():
-    robot = rb.Snatch3rRobot()
+    #robot = rb.Snatch3rRobot()
     camera = rb.Camera()
     blob = camera.get_biggest_blob()
-    if blob.get_area() >= 600:
-        ev3.Sound.beep().wait()
+    while True:
+        if blob.get_area() >= 600:
+            ev3.Sound.beep().wait()
+        blob = camera.get_biggest_blob()
 
 
 

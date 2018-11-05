@@ -361,6 +361,7 @@ class ColorSensor(low_level_rb.ColorSensor):
 
 class Camera(object):
     """
+    at least 600 pixels in area
     A class for a Pixy camera.
     Use the   PixyMon    program to initialize the camera's firmware.
     Download the program from the    Windows   link at:
@@ -370,7 +371,7 @@ class Camera(object):
         at: http://www.cmucam.org/projects/cmucam5/wiki/Teach_Pixy_an_object.
 
     Primary authors:  The ev3dev authors, David Mutchler, Dave Fisher,
-       their colleagues, the entire team, and PUT_YOUR_NAME_HERE.
+       their colleagues, the entire team, and Meghna Allamudi.
     """
 
     def __init__(self, port=ev3.INPUT_2):
