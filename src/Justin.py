@@ -76,7 +76,6 @@ def run_test_infared_sensor():
     distance = robot.proximity_sensor.get_distance_to_nearest_object_in_inches()
     while True:
         if distance <= 15 and distance >= 9:
-            print('hi')
             ev3.Sound.beep().wait()
         distance = robot.proximity_sensor.get_distance_to_nearest_object_in_inches()
 
