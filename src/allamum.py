@@ -5,12 +5,15 @@
 
 import rosebotics as rb
 import time
+import ev3dev.ev3 as ev3
+import rosebotics_new as rb
+
 
 
 def main():
     """ Runs YOUR specific part of the project """
     run_test_touch_sensor()
-    run_test_createPolygon()
+    identifySize()
 
 def run_test_touch_sensor():
     """ Tests the  touch_sensor  of the Snatch3rRobot. """
@@ -28,23 +31,17 @@ def run_test_touch_sensor():
         time.sleep(0.5)
         count = count + 1
 
-def run_test_createPolygon():
-    print()
-    print("Testng the createPolgyon method for the robot")
-    print("It will create a pentagon")
-    createPolygon(5)
 
-
-def createPolygon(n):
+def identifySize():
     robot = rb.Snatch3rRobot()
-    """ Calculates the measure of each interior angle. """
-    angle_moved = 360/n
-    inches = 10
-    for k in range(n):
-        robot.DriveSystem.go_straight_inches(inches,100,stop_action=StopAction.BRAKE)
-        robot.DriveSystem.spin_in_place_degrees(angle_moved,100,stop_action=StopAction.BRAKE)
+    camera = rb.Camera()
+    blob = camera.get_biggest_blob()
+    if blob.get_area() >= 600:
+        ev3.Sound.beep().wait()
 
-def
+
+
+
 
 
 
