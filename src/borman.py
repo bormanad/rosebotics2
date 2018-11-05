@@ -81,7 +81,7 @@ def main():
     #run_test_wait_until_intensity_is_less_than()
     #run_test_wait_until_intensity_is_greater_than()
     #run_test_wait_until_color_is()
-    run_test_wait_until_color_is_one_of()
+    #run_test_wait_until_color_is_one_of()
 
     """ Runs YOUR specific part of the project """
 

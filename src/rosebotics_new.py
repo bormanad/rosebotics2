@@ -210,12 +210,17 @@ class DriveSystem(object):
         at the given speed (-100 to 100, where negative means moving backward),
         stopping using the given StopAction (which defaults to BRAKE).
         """
-        # TODO: Use one of the Wheel object's   get_degrees_spun   method.
-        # TODO: Do a few experiments to determine the constant that converts
-        # TODO:   from wheel-DEGREES-spun to robot-INCHES-moved.
-        # TODO:   Assume that the conversion is linear with respect to speed.
-        # TODO: Don't forget that the Wheel object's position begins wherever
-        # TODO:   it last was, not necessarily 0.
+        # DONE: Use one of the Wheel object's   get_degrees_spun   method.
+        # DONE: Do a few experiments to determine the constant that converts
+        # DONE:   from wheel-DEGREES-spun to robot-INCHES-moved.
+        # DONE:   Assume that the conversion is linear with respect to speed.
+        # DONE: Don't forget that the Wheel object's position begins wherever
+        # DONE:   it last was, not necessarily 0.
+        self.start_moving(duty_cycle_percent, duty_cycle_percent)
+        while True:
+            if self.right_wheel.get_degrees_spun() * (11 * 3.1415926 / (8 * 360)) >= inches:  ## Replace inches*10
+                self.stop_moving(stop_action)
+                break
 
     def spin_in_place_degrees(self,
                               degrees,
@@ -235,6 +240,11 @@ class DriveSystem(object):
         # TODO:   Assume that the conversion is linear with respect to speed.
         # TODO: Don't forget that the Wheel object's position begins wherever
         # TODO:   it last was, not necessarily 0.
+        self.start_moving(duty_cycle_percent, -1 * duty_cycle_percent)
+        while True:
+            if self.left_wheel.get_degrees_spun() * (360 / 1980) >= degrees:
+                self.stop_moving(stop_action)
+                break
 
     def turn_degrees(self,
                      degrees,
@@ -254,6 +264,11 @@ class DriveSystem(object):
         # TODO:   Assume that the conversion is linear with respect to speed.
         # TODO: Don't forget that the Wheel object's position begins wherever
         # TODO:   it last was, not necessarily 0.
+        self.right_wheel.start_spinning(duty_cycle_percent)
+        while True:
+            if self.right_wheel.get_degrees_spun() * (180 / 1861) >= degrees:
+                self.stop_moving(stop_action)
+                break
 
 
 class TouchSensor(low_level_rb.TouchSensor):
@@ -273,22 +288,27 @@ class TouchSensor(low_level_rb.TouchSensor):
     def wait_until_pressed(self):
         """ Waits (doing nothing new) until the touch sensor is pressed. """
         # TODO.
+        while True:
+            if self.get_value() == 1:
+                self.start_moving
 
     def wait_until_released(self):
         """ Waits (doing nothing new) until the touch sensor is released. """
         # TODO
+        while True:
+            if self.get_value() == 0:
+                self.start_moving
 
 
 class ColorSensor(low_level_rb.ColorSensor):
     """
     A class for an EV3 color sensor.
     Primary authors:  The ev3dev authors, David Mutchler, Dave Fisher,
-       their colleagues, the entire team, and PUT_YOUR_NAME_HERE.
+       their colleagues, the entire team, and Drew Borman.
     """
 
     def __init__(self, port=ev3.INPUT_3):
         super().__init__(port)
-
 
     def get_color(self):
         """
@@ -333,6 +353,13 @@ class ColorSensor(low_level_rb.ColorSensor):
         be between 0 (no light reflected) and 100 (maximum light reflected).
         """
         # TODO.
+        value = self.get_value()
+        while True:
+            if value[0] <= reflected_light_intensity or value[1] <= reflected_light_intensity or value[
+                2] <= reflected_light_intensity:
+                break
+            print(value)
+            value = self.get_value()
 
     def wait_until_intensity_is_greater_than(self, reflected_light_intensity):
         """
@@ -341,6 +368,13 @@ class ColorSensor(low_level_rb.ColorSensor):
         should be between 0 (no light reflected) and 100 (max light reflected).
         """
         # TODO.
+        value = self.get_value()
+        while True:
+            if value[0] >= reflected_light_intensity or value[1] >= reflected_light_intensity or value[
+                2] >= reflected_light_intensity:
+                break
+            print(value)
+            value = self.get_value()
 
     def wait_until_color_is(self, color):
         """
@@ -349,6 +383,11 @@ class ColorSensor(low_level_rb.ColorSensor):
         The given color must be a Color (as defined above).
         """
         # TODO.
+        while True:
+            print(self.get_color())
+            if self.get_color() == color:
+                break
+        print('Done')
 
     def wait_until_color_is_one_of(self, colors):
         """
@@ -357,6 +396,10 @@ class ColorSensor(low_level_rb.ColorSensor):
         Each item in the sequence must be a Color (as defined above).
         """
         # TODO.
+        while True:
+            for k in range(len(colors)):
+                if self.get_color() == colors[k]:
+                    print('Done')
 
 
 class Camera(object):
@@ -661,9 +704,9 @@ class ArmAndClaw(object):
     """
     A class for the arm and its associated claw.
     Primary authors:  The ev3dev authors, David Mutchler, Dave Fisher,
-    their colleagues, the entire team, and PUT_YOUR_NAME_HERE.
+    their colleagues, the entire team, and Drew Borman.
     """
-    # TODO: In the above line, put the name of the primary author of this class.
+    # DONE: In the above line, put the name of the primary author of this class.
 
     def __init__(self, touch_sensor, port=ev3.OUTPUT_A):
         # The ArmAndClaw's  motor  is not really a Wheel, of course,
@@ -686,6 +729,12 @@ class ArmAndClaw(object):
         (Hence, 0 means all the way DOWN and 14.2 * 360 means all the way UP).
         """
         # TODO: Do this as STEP 2 of implementing this class.
+        while True:
+            self.motor.start_moving(left_wheel=100, right_wheel=100)
+            if self.touch_sensor() == 1:
+                self.motor.stop_moving()
+                self.calibrate()
+            break
 
     def raise_arm_and_close_claw(self):
         """
@@ -694,7 +743,13 @@ class ArmAndClaw(object):
         Positive speeds make the arm go UP; negative speeds make it go DOWN.
         Stop when the touch sensor is pressed.
         """
-        # TODO: Do this as STEP 1 of implementing this class.
+        # DONE: Do this as STEP 1 of implementing this class.
+        while True:
+            self.motor.start_moving(left_wheel=100, right_wheel=100)
+            if self.touch_sensor() == 1:
+                break
+        time.sleep(3)
+        self.calibrate()
 
     def move_arm_to_position(self, position):
         """
