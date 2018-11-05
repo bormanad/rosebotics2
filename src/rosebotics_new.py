@@ -742,7 +742,7 @@ class ArmAndClaw(object):
         Positive speeds make the arm go UP; negative speeds make it go DOWN.
         Stop when the touch sensor is pressed.
         """
-        # TODO: Do this as STEP 1 of implementing this class.
+        # DONE: Do this as STEP 1 of implementing this class.
         while True:
             self.motor.start_moving(left_wheel=100, right_wheel=100)
             if self.touch_sensor() == 1:
