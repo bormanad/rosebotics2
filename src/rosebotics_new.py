@@ -615,7 +615,7 @@ class InfraredAsBeaconButtonSensor(object):
         }
 
     def set_channel(self, channel):
-        """
+        """ 
         Makes this sensor look for signals on the given channel. The physical
         Beacon has a switch that can set the channel to 1, 2, 3 or 4.
         """
