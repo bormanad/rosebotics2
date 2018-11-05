@@ -703,9 +703,9 @@ class ArmAndClaw(object):
     """
     A class for the arm and its associated claw.
     Primary authors:  The ev3dev authors, David Mutchler, Dave Fisher,
-    their colleagues, the entire team, and PUT_YOUR_NAME_HERE.
+    their colleagues, the entire team, and Drew Borman.
     """
-    # TODO: In the above line, put the name of the primary author of this class.
+    # DONE: In the above line, put the name of the primary author of this class.
 
     def __init__(self, touch_sensor, port=ev3.OUTPUT_A):
         # The ArmAndClaw's  motor  is not really a Wheel, of course,
@@ -728,6 +728,12 @@ class ArmAndClaw(object):
         (Hence, 0 means all the way DOWN and 14.2 * 360 means all the way UP).
         """
         # TODO: Do this as STEP 2 of implementing this class.
+        while True:
+            self.motor.start_moving(left_wheel=100, right_wheel=100)
+            if self.touch_sensor() == 1:
+                self.motor.stop_moving()
+                self.calibrate()
+            break
 
     def raise_arm_and_close_claw(self):
         """
@@ -737,6 +743,12 @@ class ArmAndClaw(object):
         Stop when the touch sensor is pressed.
         """
         # TODO: Do this as STEP 1 of implementing this class.
+        while True:
+            self.motor.start_moving(left_wheel=100, right_wheel=100)
+            if self.touch_sensor() == 1:
+                break
+        time.sleep(3)
+        self.calibrate()
 
     def move_arm_to_position(self, position):
         """
