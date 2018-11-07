@@ -65,6 +65,7 @@ def run_test_turn_degrees():
 
     print('Degrees the wheels turned:', robot.drive_system.right_wheel.get_degrees_spun())
 
+
 def run_test_infared_sensor():
 
     print()
@@ -73,11 +74,13 @@ def run_test_infared_sensor():
     print('Should beep if an object is within 9 inches')
 
     robot = rb.Snatch3rRobot()
-    distance = robot.proximity_sensor.get_distance_to_nearest_object_in_inches()
     while True:
+        distance = robot.proximity_sensor.get_distance_to_nearest_object_in_inches()
+        print(distance)
         if distance <= 15 and distance >= 9:
             ev3.Sound.beep().wait()
-        distance = robot.proximity_sensor.get_distance_to_nearest_object_in_inches()
+
+
 
 
 
