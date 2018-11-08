@@ -218,7 +218,7 @@ class DriveSystem(object):
         self.start_moving(duty_cycle_percent, duty_cycle_percent)
         while True:
             if self.right_wheel.get_degrees_spun() * (11 * 3.1415926 / (8 * 360)) >= inches:  ## Replace inches*10
-                self.stop_moving()
+                self.stop_moving(stop_action.value)
                 break
 
     def spin_in_place_degrees(self,
