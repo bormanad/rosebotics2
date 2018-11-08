@@ -41,7 +41,7 @@ def main():
             ev3.Sound.beep().wait()
         if robot.beacon_button_sensor.is_top_blue_button_pressed():
             ev3.Sound.beep('Hello, how are you?').wait()
-            
+
         # ----------------------------------------------------------------------
         # TODO: 7. Add code that makes the robot beep if the top-red button
         # TODO:    on the Beacon is pressed.  Add code that makes the robot
