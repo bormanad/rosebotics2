@@ -47,8 +47,8 @@ class Snatch3rRobot(object):
         # self.arm = ArmAndClaw(arm_port)
         self.touch_sensor = TouchSensor(touch_sensor_port)
         # self.camera = Camera(camera_port)
-        self.color_sensor = ColorSensor(color_sensor_port)
-        # self.infrared_sensor = InfraredSensor(infrared_sensor_port)
+        #self.color_sensor = ColorSensor(color_sensor_port)
+        self.proximity_sensor = InfraredSensorAsProximitySensor(infrared_sensor_port)
 
 
 class DriveSystem(object):
@@ -279,6 +279,31 @@ class InfraredSensorAsProximitySensor(object):
     """ Primary author of this class:  PUT_YOUR_NAME_HERE. """
     def __init__(self, port=ev3.INPUT_4):
         super().__init__(port)
+
+    def get_distance_to_nearest_object(self):
+        """
+        Returns the distance to the nearest object in its field of vision,
+        as a integer between 0 and 100, where a value N indicates that the
+        distance to the nearest object is 70 * (N/100) cm.  For example:
+           - numbers < 10 indicate that the object is less than 7 cm away
+           - 20 means 1/5 of 70, i.e., 14 cm
+           - 40 means 2/5 of 70, i.e., 28 cm
+           - 50 means 1/2 of 70, i.e., 35 cm
+           - greater than 70 is too far away to be useful
+               (more precisely, greater than 49 cm away)
+           - 100 is the maximum distance for the sensor, namely, 100 cm.
+        """
+        return super().get_distance_to_nearest_object()
+
+    def get_distance_to_nearest_object_in_inches(self):
+        """
+        Returns the distance to the nearest object in its field of vision,
+        in inches, where about 39.37 inches (which is 100 cm) means no object
+        is within its field of vision.
+        """
+        inches_per_cm = 2.54
+        return 70 / inches_per_cm * self.get_distance_to_nearest_object() / 100
+
 
 
 class InfraredSensorAsBeaconSensor(object):

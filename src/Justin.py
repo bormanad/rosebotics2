@@ -74,10 +74,12 @@ def run_test_infared_sensor():
     print('Should beep if an object is within 9 inches')
 
     robot = rb.Snatch3rRobot()
+    print('robot')
     while True:
+        print('in')
         distance = robot.proximity_sensor.get_distance_to_nearest_object_in_inches()
         print(distance)
-        if distance <= 15 and distance >= 9:
+        if int(distance) <= 15 and int(distance) >= 9:
             ev3.Sound.beep().wait()
 
 

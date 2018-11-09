@@ -133,8 +133,8 @@ class Snatch3rRobot(object):
         self.camera = Camera(camera_port)
 
         self.proximity_sensor = InfraredAsProximitySensor(ir_sensor_port)
-        self.beacon_sensor = InfraredAsBeaconSensor(channel=1)
-        self.beacon_button_sensor = InfraredAsBeaconButtonSensor(channel=1)
+        #self.beacon_sensor = InfraredAsBeaconSensor(channel=1)
+        #self.beacon_button_sensor = InfraredAsBeaconButtonSensor(channel=1)
 
         self.brick_button_sensor = BrickButtonSensor()
 
@@ -149,7 +149,7 @@ class DriveSystem(object):
        their colleagues, the entire team, and PUT_YOUR_NAME_HERE.
     """
 
-    # TODO: In the above line, put the name of the primary author of this class.
+    # DONE: In the above line, put the name of the primary author of this class.
 
     def __init__(self,
                  left_wheel_port=ev3.OUTPUT_B,
@@ -163,12 +163,12 @@ class DriveSystem(object):
     def start_moving(self,
                      left_wheel_duty_cycle_percent=100,
                      right_wheel_duty_cycle_percent=100):
-        """
-        STARTS the robot MOVING at the given wheel speeds
-        (-100 to 100, where negative means spinning backward).
-        """
         self.left_wheel.start_spinning(left_wheel_duty_cycle_percent)
         self.right_wheel.start_spinning(right_wheel_duty_cycle_percent)
+        """
+           STARTS the robot MOVING at the given wheel speeds
+           (-100 to 100, where negative means spinning backward).
+           """
 
     def stop_moving(self, stop_action=StopAction.BRAKE.value):
         """
@@ -192,12 +192,10 @@ class DriveSystem(object):
         # For pedagogical purposes, we use a WHILE loop to keep going for a
         # given number of seconds, instead of using the simpler alternative:
         #      time.sleep(seconds)
-        self.start_moving(left_wheel_duty_cycle_percent,
-                          right_wheel_duty_cycle_percent)
         start_time = time.time()
         while True:
             if time.time() - start_time > seconds:
-                self.stop_moving(stop_action.value)
+                self.stop_moving(stop_action)
                 break
 
     def go_straight_inches(self,
@@ -218,7 +216,7 @@ class DriveSystem(object):
         self.start_moving(duty_cycle_percent, duty_cycle_percent)
         while True:
             if self.right_wheel.get_degrees_spun() * (11 * 3.1415926 / (8 * 360)) >= inches:  ## Replace inches*10
-                self.stop_moving(stop_action.value)
+                self.stop_moving(stop_action)
                 break
 
     def spin_in_place_degrees(self,
@@ -242,7 +240,7 @@ class DriveSystem(object):
         self.start_moving(duty_cycle_percent, -1 * duty_cycle_percent)
         while True:
             if self.left_wheel.get_degrees_spun() * (360 / 1980) >= degrees:
-                self.stop_moving()
+                self.stop_moving(stop_action)
                 break
 
     def turn_degrees(self,
@@ -266,7 +264,7 @@ class DriveSystem(object):
         self.right_wheel.start_spinning(duty_cycle_percent)
         while True:
             if self.right_wheel.get_degrees_spun() * (180 / 1861) >= degrees:
-                self.stop_moving()
+                self.stop_moving(stop_action)
                 break
 
 
@@ -729,11 +727,12 @@ class ArmAndClaw(object):
 
         self.raise_arm_and_close_claw()
         self.motor.reset_degrees_spun()
+        self.motor.start_spinning(-100)
         while True:
-            self.motor.start_spinning(-100)
-            if self.motor.get_degrees_spun() == -5700:
+            if self.motor.get_degrees_spun() <= -5700:
                 self.motor.stop_spinning()
                 break
+        self.motor.reset_degrees_spun()
 
     def raise_arm_and_close_claw(self):
         """
@@ -743,10 +742,9 @@ class ArmAndClaw(object):
         Stop when the touch sensor is pressed.
         """
         # DONE: Do this as STEP 1 of implementing this class.
+        self.motor.start_spinning(100)
         while True:
-            touch = low_level_rb.TouchSensor(ev3.INPUT_1)
-            self.motor.start_spinning(100)
-            if touch.get_value() == 1:
+            if self.touch_sensor.is_pressed():
                 self.motor.stop_spinning()
                 break
 
