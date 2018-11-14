@@ -8,8 +8,7 @@ It uses MQTT to SEND information to a program running on the ROBOT.
 Authors:  David Mutchler, his colleagues, and Meghna Allamudi.
 """
 
-import rosebotics_new as rb
-import functools
+
 
 # ------------------------------------------------------------------------------
 # TODO: 2. With your instructor, discuss the "big picture" of laptop-robot
