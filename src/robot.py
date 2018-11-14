@@ -54,18 +54,18 @@ def main():
     # TODO:    that appears to do nothing, is necessary.
     # TODO:    When you understand this, delete this TODO.
     # --------------------------------------------------------------------------
-    while True:
-        if robot.beacon_button_sensor.is_top_red_button_pressed():
-            ev3.Sound.beep().wait()
-        if robot.beacon_button_sensor.is_bottom_blue_button_pressed():
-            ev3.Sound.speak('Hello. How are you?').wait()
+    #while True:
+        #if robot.beacon_button_sensor.is_top_red_button_pressed():
+           # ev3.Sound.beep().wait()
+       # if robot.beacon_button_sensor.is_bottom_blue_button_pressed():
+           # ev3.Sound.speak('Hello. How are you?').wait()
         # ----------------------------------------------------------------------
         # TODO: 7. Add code that makes the robot beep if the top-red button
         # TODO:    on the Beacon is pressed.  Add code that makes the robot
         # TODO:    speak "Hello. How are you?" if the top-blue button on the
         # TODO:    Beacon is pressed.  Test.  When done, delete this TODO.
         # ----------------------------------------------------------------------
-        time.sleep(0.01)  # For the delegate to do its work
+        #time.sleep(0.01)  # For the delegate to do its work
 class RemoteControlEtc(object):
     def __init__(self,robot):
         """
@@ -74,11 +74,22 @@ class RemoteControlEtc(object):
         """
         self.robot = robot
 
-    def go_forward(self,speed_string):
-        """Makes the robot go forward at given speed """
-        print('Telling the robot to start moving at', speed_string)
-        speed = int(speed_string)
-        self.robot.drive_system.start_moving(speed,speed)
+    def get_color(self,color_number):
+        """Makes the robot stop at color given """
+        print('Stop moving robot at', color_number)
+        color_int = int(color_number)
+        while True:
+            self.robot.drive_system.start_moving(50 ,50)
+            if self.robot.color_sensor.get_color() == color_int:
+                self.robot.drive_system.stop_moving()
+                break
+        camera = rb.Camera()
+        blob = camera.get_biggest_blob()
+        while True:
+            if blob.get_area() >= 600:
+                ev3.Sound.beep().wait()
+                blob = camera.get_biggest_blob()
+
 
 
 

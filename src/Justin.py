@@ -10,7 +10,7 @@ import ev3dev.ev3 as ev3
 def main():
     """ Runs YOUR specific part of the project """
     #run_test_move_for_seconds()
-    #run_test_go_straight_inches()
+    run_test_go_straight_inches()
     #run_test_spin_in_place_degrees()
     #run_test_turn_degrees()
     run_test_infared_sensor()

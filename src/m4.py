@@ -10,7 +10,7 @@ import time
 def main():
     """ Runs YOUR specific part of the project """
     #run_test_createPolygon()
-    #run_test_findColor()
+    run_test_findColor()
     #run_test_followBlackLine()
 
 
@@ -21,6 +21,7 @@ def run_test_createPolygon():
     print("It will create a pentagon")
     createPolygon(5)
     print('hi')
+
 def run_test_followBlackLine():
     print()
     print("Testing the followBlackLine method")
@@ -47,6 +48,7 @@ def createPolygon(n):
         i = i + 1
 
 
+
     print('dont')
 def followBlackLine():
     robot = rb.Snatch3rRobot()
@@ -67,6 +69,7 @@ def findColor(color):
         if robot.color_sensor.get_color() == color:
             robot.drive_system.stop_moving()
             break
+
 
 
 

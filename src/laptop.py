@@ -7,11 +7,14 @@ It uses MQTT to SEND information to a program running on the ROBOT.
 
 Authors:  David Mutchler, his colleagues, and Meghna Allamudi.
 """
+
 import rosebotics_new as rb
+import functools
 
 # ------------------------------------------------------------------------------
 # TODO: 2. With your instructor, discuss the "big picture" of laptop-robot
-# TODO:    communication:
+# TODO:
+#  communication:
 # TODO:      - One program runs on your LAPTOP.  It displays a GUI.  When the
 # TODO:        user presses a button intended to make something happen on the
 # TODO:        ROBOT, the LAPTOP program sends a message to its MQTT client
@@ -34,6 +37,7 @@ from tkinter import ttk
 import mqtt_remote_method_calls as com
 
 
+
 def main():
     """ Constructs and runs a GUI for this program. """
     root = tkinter.Tk()
@@ -50,20 +54,20 @@ def setup_gui(root_window,client):
     frame = ttk.Frame(root_window, padding=10)
     frame.grid()
 
-    speed_entry_box = ttk.Entry(frame)
-    go_forward_button = ttk.Button(frame, text="Go forward")
+    color_entry_box = ttk.Entry(frame)
+    send_color_button = ttk.Button(frame, text="Send Color")
 
-    speed_entry_box.grid()
-    go_forward_button.grid()
+    color_entry_box.grid()
+    send_color_button.grid()
 
-    go_forward_button['command'] = \
-        lambda: handle_go_forward(speed_entry_box,client)
+    send_color_button['command'] = \
+        lambda: handle_get_color(color_entry_box,client)
 
 
-def handle_go_forward(entry_box,mqtt_client):
-    speed_string = entry_box.get()
-    print('Sending the go_forward message with speed',speed_string)
-    mqtt_client.send_message('go_forward',[speed_string])
+def handle_get_color(entry_box,mqtt_client):
+    color_number = entry_box.get()
+    print('Sending the get_color message',color_number)
+    mqtt_client.send_message('get_color',[color_number])
 
 
     """
