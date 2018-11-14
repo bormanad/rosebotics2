@@ -55,10 +55,14 @@ def setup_gui(root_window,client):
     frame.grid()
 
     color_entry_box = ttk.Entry(frame)
+    entry_box2 = ttk.Entry(frame)
     send_color_button = ttk.Button(frame, text="Send Color")
+    send_speed = ttk.Button(frame,text = 'Adjust Speed')
 
     color_entry_box.grid()
     send_color_button.grid()
+    entry_box2.grid()
+    send_speed.grid()
 
     send_color_button['command'] = \
         lambda: handle_get_color(color_entry_box,client)

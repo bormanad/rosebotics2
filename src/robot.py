@@ -78,16 +78,16 @@ class RemoteControlEtc(object):
         """Makes the robot stop at color given """
         print('Stop moving robot at', color_number)
         color_int = int(color_number)
+        self.robot.drive_system.start_moving(50 ,50)
         while True:
-            self.robot.drive_system.start_moving(50 ,50)
             if self.robot.color_sensor.get_color() == color_int:
-                self.robot.drive_system.stop_moving()
+                self.robot.drive_system.start_moving(0,0)
                 break
         camera = rb.Camera()
         blob = camera.get_biggest_blob()
         while True:
             if blob.get_area() >= 600:
-                ev3.Sound.beep().wait()
+                ev3.Sound.speak('Object approaching').wait()
                 blob = camera.get_biggest_blob()
 
 
