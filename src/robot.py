@@ -23,8 +23,9 @@ import mqtt_remote_method_calls as com
 import ev3dev.ev3 as ev3
 
 
-
 def main():
+
+    print('in main')
     robot = rb.Snatch3rRobot()
     rc = RemoteControlEtc(robot)
     client = com.MqttClient(rc)

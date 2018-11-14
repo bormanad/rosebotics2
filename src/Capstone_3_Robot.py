@@ -30,6 +30,7 @@ def main():
     # --------------------------------------------------------------------------
     # DONE: 3. Construct a Snatch3rRobot.  Test.  When OK, delete this DONE.
     # --------------------------------------------------------------------------
+    print('in main')
     rc = RemoteControlEtc(robot)
     client = com.MqttClient(rc)
     client.connect_to_pc()
@@ -54,10 +55,10 @@ def main():
     # DONE:    When you understand this, delete this DONE.
     # --------------------------------------------------------------------------
     while True:
-        if robot.beacon_button_sensor.is_top_red_button_pressed():
-            ev3.Sound.beep().wait()
-        elif robot.beacon_button_sensor.is_top_blue_button_pressed():
-            ev3.Sound.speak('Hello. How are you?').wait()
+        #if robot.beacon_button_sensor.is_top_red_button_pressed():
+            #ev3.Sound.beep().wait()
+        #elif robot.beacon_button_sensor.is_top_blue_button_pressed():
+            #ev3.Sound.speak('Hello. How are you?').wait()
         # ----------------------------------------------------------------------
         # DONE: 7. Add code that makes the robot beep if the top-red button
         # DONE:    on the Beacon is pressed.  Add code that makes the robot
@@ -75,9 +76,27 @@ class RemoteControlEtc(object):
         """
         self.robot = robot
 
-    def go_forward(self, speed_string):
+    def go_forward(self, color_string):
         print('In Go_Forward')
-        speed = int(speed_string)
+        speed = 50
+        color = int(color_string)
         self.robot.drive_system.start_moving(speed, speed)
+        while True:
+            print('in while loop')
+            print(self.robot.color_sensor.get_color())
+            print(self.robot.proximity_sensor.get_distance_to_nearest_object_in_inches())
+            if int(self.robot.proximity_sensor.get_distance_to_nearest_object_in_inches()) <= 10:
+                self.robot.drive_system.start_moving(0,0)
+                print('sensed object')
+                break
+        ev3.Sound.speak('Lets move together')
+        time.sleep(3)
+        self.robot.drive_system.start_moving(speed, speed)
+        while True:
+            if self.robot.color_sensor.get_color() == color:
+                print('sensed color')
+                self.robot.drive_system.start_moving(0,0)
+                break
+        ev3.Sound.speak('we found the treasure!').wait
 
 main()

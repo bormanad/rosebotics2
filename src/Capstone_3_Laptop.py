@@ -64,26 +64,38 @@ def main():
 
 def setup_gui(root_window, client):
     """ Constructs and sets up widgets on the given window. """
-    frame = ttk.Frame(root_window, padding=10)
+    frame = ttk.Frame(root_window, padding=100)
     frame.grid()
 
     speed_entry_box = ttk.Entry(frame)
-    go_forward_button = ttk.Button(frame, text="Go forward")
+    go_forward_button = ttk.Button(frame, text="Go forward enter a number 0 - 100")
+
+    color_entry_box = ttk.Entry(frame)
+    pick_up_color_button = ttk.Button(frame, text='BLACK is 1, BLUE  is 2, GREEN is 3,'
+                                                  ' YELLOW is 4, RED is 5, WHITE is 6, BROWN is 7')
+
+    text_button = ttk.Button(frame, text='Press the Go forward button after entering a value for both boxes')
 
     speed_entry_box.grid()
     go_forward_button.grid()
 
-    go_forward_button['command'] = \
-        lambda: handle_go_forward(speed_entry_box, client)
+    color_entry_box.grid()
+    pick_up_color_button.grid()
+
+    text_button.grid()
+
+    pick_up_color_button['command'] = \
+        lambda: handle_go_forward(color_entry_box, client)
 
 
-def handle_go_forward(speed, client):
+def handle_go_forward(color, client):
     """
     Tells the robot to go forward at the speed specified in the given entry box.
     """
-    string = speed.get()
-    print("Sending the go_forward message with speed", string)
-    client.send_message("go_forward", [string])
+    #string_speed = speed.get()
+    string_color = color.get()
+    print("Sending the go_forward message with color to stop at", string_color)
+    client.send_message("go_forward", [string_color])
     # --------------------------------------------------------------------------
     # DONE: 6. This function needs the entry box in which the user enters
     # DONE:    the speed at which the robot should move.  Make the 2 changes
@@ -111,6 +123,7 @@ def handle_go_forward(speed, client):
     # DONE:
     # DONE:    Test by using a PRINT statement.  When done, delete this DONE.
     # --------------------------------------------------------------------------
+
 
 
 main()
